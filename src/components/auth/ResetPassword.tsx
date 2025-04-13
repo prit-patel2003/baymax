@@ -19,7 +19,7 @@ const ResetPassword = () => {
             
               };
   return (
-    <div className='max-w-1/2 w-full px-12 flex flex-col items-center justify-center max-[786px]:max-w-full gap-4'>
+    <div className='max-w-1/2 w-full px-12 flex flex-col items-center justify-center max-[786px]:max-w-full gap-4 py-10'>
           <div className="mt-2 text-black text-[30px] font-bold">
           Reset Password
           </div>

@@ -24,7 +24,7 @@ const Signup = () => {
         
           };
   return (
-    <div className="max-w-1/2 w-full px-12 py-12 flex flex-col max-[786px]:max-w-full">
+    <div className="max-w-1/2 w-full px-12 py-16 flex flex-col max-[786px]:max-w-full">
           <div className="w-full flex gap-2">
             <Image
               src={mainLogo}
