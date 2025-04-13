@@ -98,14 +98,14 @@ const AboutUs = () => {
                 <div className="flex flex-col items-start gap-6 w-full max-w-3xl">
                   {/* Text */}
                   {typedLines[index] ? (
-                    <p className="text-2xl font-extrabold text-white">{typedLines[index]}</p>
+                    <p className="text-2xl font-extrabold text-white max-lg:text-xl max-md:text-md max-sm:text-xs">{typedLines[index]}</p>
                   ) : isCurrent && isTyping ? (
                     <ReactTyped
                       strings={[lineText]}
                       typeSpeed={60}
                       showCursor={false}
                       onComplete={handleTypingDone}
-                      className="text-2xl font-extrabold text-white"
+                      className="text-2xl font-extrabold text-white max-lg:text-xl max-md:text-md max-sm:text-xs"
                     />
                   ) : null}
 
