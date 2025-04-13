@@ -1,57 +1,59 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { ReactTyped } from 'react-typed'
+import ReactPlayer from 'react-player'
 
 const AboutUs = () => {
   const [animationComplete, setAnimationComplete] = useState(false)
-  const [currentText, setCurrentText] = useState('')
   const [lineIndex, setLineIndex] = useState(0)
+  const [typedLines, setTypedLines] = useState<string[]>([])
+  const [isTyping, setIsTyping] = useState(true)
+  const [isClient, setIsClient] = useState(false)
+  const [contentVisible, setContentVisible] = useState(false) // New state for content visibility
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([])
 
-  // Hardcoded story data
   const story = [
-    "Day 0 at 0900 Hours: Master starts coding me, working on the basics of medical diagnostics and robot movement.",
-    "Day 182 at 1300 Hours: My inflatable body is constructed, but I struggle with balance and stability during tests.",
-    "Day 234 at 1500 Hours: A catastrophic error erases all my programming, leaving Master frustrated but determined to rebuild from scratch.",
-    "Day 368 at 1700 Hours: Master starts coding me with a more advanced design, and I am finally given the name 'Baymax.'",
-    "Day 275 at 1200 Hours: My first test in the field is a failure; my inflatable body causes minor harm instead of helping.",
-    "Day 300 at 1800 Hours: My empathy module is added, allowing me to diagnose and comfort a patient successfully.",
-    "Day 400 at 2000 Hours: Every test, every trial — all seemed perfect, but disappointment strikes. I wasn’t quite there yet."
+    { day: 1, hour: 900, data: 'Master starts with my first test...', videoUrl: 'https://youtu.be/EVcuEGlj2SM' },
+    { day: 7, hour: 1700, data: 'My inflatable body gets out of control...', videoUrl: 'https://youtu.be/vl3f85FzcGM' },
+    { day: 33, hour: 1500, data: 'A catastrophic error shuts down the entire building but still he does not give up on me..', videoUrl: 'https://youtu.be/8yBdXaGxmuo' },
+    { day: 84, hour: 900, data: 'Losing all hope one final test...', videoUrl: 'https://youtu.be/RZUAytnJHo8' },
   ]
 
-  const speakText = (text: string) => {
-    const utterance = new SpeechSynthesisUtterance(text)
-    window.speechSynthesis.speak(utterance)
-  }
-
   useEffect(() => {
+    setIsClient(true)
     const timer = setTimeout(() => {
       setAnimationComplete(true)
-    }, 1500)
-
+      setContentVisible(true) // Set contentVisible to true after 1.5s
+    }, 1800)
     return () => clearTimeout(timer)
   }, [])
 
   useEffect(() => {
-    if (lineIndex < story.length) {
-      let currentChar = 0
-      const interval = setInterval(() => {
-        if (currentChar < story[lineIndex].length) {
-          setCurrentText((prevText) => prevText + story[lineIndex][currentChar])
-          currentChar++
-        } else {
-          clearInterval(interval)
-          speakText(story[lineIndex]) // Speak the current line after it finishes typing
-          setLineIndex((prevIndex) => prevIndex + 1) // Move to the next line
-        }
-      }, 50) // Typing speed
-
-      return () => clearInterval(interval)
+    const currentRef = sectionRefs.current[lineIndex]
+    if (currentRef) {
+      currentRef.scrollIntoView({ behavior: 'smooth', block: 'center' })
     }
   }, [lineIndex])
 
+  const handleTypingDone = () => {
+    const line = story[lineIndex]
+    const lineText = `Day ${line.day}, Hour ${line.hour}: ${line.data}`
+    setTypedLines((prev) => [...prev, lineText])
+    setIsTyping(false)
+  }
+
+  const handleVideoEnd = () => {
+    setTimeout(() => {
+      setLineIndex((prev) => prev + 1)
+      setIsTyping(true)
+    }, 500)
+  }
+
   return (
-    <div className="relative w-full h-screen overflow-hidden">
+    <div className="relative w-full min-h-screen bg-[#111827] font-[Poppins] text-white overflow-hidden">
+      {/* Loader */}
       <AnimatePresence>
         {!animationComplete && (
           <motion.div
@@ -64,17 +66,84 @@ const AboutUs = () => {
         )}
       </AnimatePresence>
 
-      <div className={`absolute inset-0 z-40 flex items-center justify-center text-white transition-opacity duration-500 ${animationComplete ? 'bg-[#111827]' : 'bg-transparent'}`}>
-        <h1 className="text-3xl font-bold">About Us</h1>
-      </div>
+      {/* Header */}
+     
 
-      {/* Typing effect and line animation */}
-      <div className="absolute bottom-10 w-full px-4 z-40 flex justify-center">
-        <div className="relative flex items-center gap-2 justify-center max-w-[1440px] w-full ">
-        
-          <div className="text-white font-mono text-lg whitespace-pre-wrap">{currentText}</div>
-        </div>
+      {/* Story */}
+      {contentVisible && ( 
+        // Render the content after 1.5s delay
+        <>
+        <div className={`sticky top-0 z-40 flex items-center justify-center pt-20 transition-opacity duration-500 ${animationComplete ? 'bg-[#111827]' : 'bg-transparent'}`}>
+        <h1 className="text-4xl font-extrabold text-white text-center">Let&apos;s Start From The Beginning</h1>
       </div>
+        <div className="relative max-w-[1440px] mx-auto px-20 mt-16 pb-24 max-[500px]:px-10">
+          {/* Vertical Line */}
+          <div className="absolute left-[78px] top-0 w-[4px] bg-white z-0 max-[500px]:left-[38px]" style={{ height: `100%` }} />
+
+          {story.map((line, index) => {
+            const lineText = `Day ${line.day}, Hour ${line.hour}: ${line.data}`
+            const isCurrent = index === lineIndex
+
+            return (
+              <div
+                key={index}
+                ref={(el) => { sectionRefs.current[index] = el }}
+                className="relative w-full flex flex-row items-start min-h-[500px] pt-24"
+              >
+                {/* Dot */}
+                <div className={`w-4 h-4 rounded-full absolute left-[-8px] top-0 z-10 ${isCurrent ? 'bg-white scale-150 shadow-[0_0_20px_8px_rgba(255,255,255,0.6)] transition-all duration-500' : 'bg-white'}`} />
+                <div className="w-8" />
+
+                {/* Text + Video */}
+                <div className="flex flex-col items-start gap-6 w-full max-w-3xl">
+                  {/* Text */}
+                  {typedLines[index] ? (
+                    <p className="text-2xl font-extrabold text-white">{typedLines[index]}</p>
+                  ) : isCurrent && isTyping ? (
+                    <ReactTyped
+                      strings={[lineText]}
+                      typeSpeed={60}
+                      showCursor={false}
+                      onComplete={handleTypingDone}
+                      className="text-2xl font-extrabold text-white"
+                    />
+                  ) : null}
+
+                  {/* Video */}
+                  {isClient && isCurrent && !isTyping && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ duration: 1 }}
+                      className="w-full aspect-video rounded-xl overflow-hidden shadow-lg"
+                    >
+                      <ReactPlayer
+                        url={line.videoUrl}
+                        width="100%"
+                        height="100%"
+                        playing
+                        controls={false}
+                        config={{
+                          youtube: {
+                            playerVars: {
+                              modestbranding: 1,
+                              rel: 0,
+                              controls: 0,
+                              showinfo: 0,
+                            },
+                          },
+                        }}
+                        onEnded={handleVideoEnd}
+                      />
+                    </motion.div>
+                  )}
+                </div>
+              </div>
+            )
+          })}
+        </div>
+        </>
+      )}
     </div>
   )
 }

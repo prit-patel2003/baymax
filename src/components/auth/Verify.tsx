@@ -31,12 +31,12 @@ const Verify = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-1/2 w-full px-12 flex flex-col items-center justify-center max-[786px]:max-w-full gap-4">
+    <form onSubmit={handleSubmit} className="max-w-1/2 w-full px-12 flex flex-col items-center justify-center max-[786px]:max-w-full gap-4 py-10">
       <div className="bg-[#AF1024] rounded-full p-4">
         <Image src={shield} alt='shield'/>
       </div>
       <p className="text-black font-bold text-[24px]">Enter OTP</p>
-      <p className="text-[#6B7280] text-sm font-light px-24 text-center">
+      <p className="text-[#6B7280] text-sm font-light  text-center">
         We&apos;ve sent a code to your email j***@email.com
       </p>
       <div className="flex gap-2 my-4">

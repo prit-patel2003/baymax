@@ -9,8 +9,8 @@ interface LayoutProps {
 const layout: React.FC<LayoutProps> = ({ children }) => (
     <div>
       <div className="w-full flex flex-col items-center bg-[#AF1024]">
-      <div className="max-w-[1440px] w-full h-lvh flex justify-center items-center ">
-        <div className="max-w-[1024px] bg-white w-full rounded-2xl flex shadow-2xl h-auto m-5">
+      <div className="max-w-[1440px] w-full h-lvh flex justify-center items-center my-10">
+        <div className="max-w-[1024px] bg-white w-full rounded-2xl flex shadow-2xl h-auto m-5 ">
           {children}
 
           <div className="bg-[#AF1024] w-full flex flex-col justify-center items-center gap-6 max-[786px]:hidden py-16">
