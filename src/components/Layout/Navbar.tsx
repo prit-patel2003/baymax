@@ -35,11 +35,11 @@ const Navbar = () => {
           <p className="text-white font-bold text-[24px] pt-[7px]">Baymax</p>
         </Link>
         <div className="flex gap-7 items-center text-white font-medium text-sm max-[600px]:hidden">
-          <p className="relative cursor-pointer group">
+          <Link href='ai-assistant' className="relative cursor-pointer group">
             <span className="inline-block transition-all duration-300 transform group-hover:-translate-y-1 group-hover:scale-125">
               AI Assistant
             </span>
-          </p>
+          </Link>
           <p className="relative cursor-pointer group">
             <span className="inline-block transition-all duration-300 transform group-hover:-translate-y-1 group-hover:scale-125">
               Schedule Call

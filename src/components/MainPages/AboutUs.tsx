@@ -5,6 +5,8 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ReactTyped } from 'react-typed'
 import ReactPlayer from 'react-player'
 import { toast } from 'sonner'
+import Image from 'next/image'
+import play from '@/assests/svg/play.svg'
 
 const AboutUs = () => {
   const [showTimeline, setShowTimeline] = useState(false)
@@ -129,9 +131,9 @@ const AboutUs = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowTimeline(true)}
-            className="bg-white text-black font-bold text-[200px] pl-10 w-[400px] h-[400px] rounded-[400px] shadow-lg  hover:shadow-[0_0_40px_rgba(255,255,255,0.8)] transition-all cursor-pointer max-md:h-[200px] max-md:w-[200px] max-md:text-[100px] max-md:pl-4 max-sm:h-[150px] max-sm:w-[150px] max-sm:text-[75px] max-sm:pl-2 flex items-center justify-center"
+            className="bg-white text-black font-bold  w-[400px] h-[400px] rounded-[400px] shadow-lg  hover:shadow-[0_0_40px_rgba(255,255,255,0.8)] transition-all cursor-pointer max-md:h-[200px] max-md:w-[200px] max-md:text-[100px] max-sm:h-[150px] max-sm:w-[150px] max-sm:text-[75px] flex items-center justify-center"
           >
-            ▶
+            <Image src={play} alt='play' className='w-[200px] h-[200px] max-md:w-[150px] max-md:h-[150px] max-sm:w-[75px] max-sm:h-[75px]'/>
           </motion.button>
         </motion.div>
           <p className="mt-14 text-gray-400 text-[30px] px-4 text-center max-md:text-[20px] max-sm:text-[18px]">Click to begin the Baymax story</p>
